@@ -11,6 +11,7 @@
 // should return ["hello", "goodbye"]
 // if the corresponding items in both lists aren't empty,
 // the value in list1 is kept.
+//TODO: test!!!
 function merge(list0, list1) {
     for (let i = 0; i < list0.length; i++) {
         if (list1[i] !== "") {
