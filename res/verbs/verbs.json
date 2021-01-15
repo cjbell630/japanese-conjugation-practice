@@ -1,12 +1,11 @@
 {
   "verbs": {
     "Genki 1": {
-      "Lesson 1": [
-        "verb",
-        "verb",
-        "verb",
-        "etc"
-      ]
+      "Lesson 1": {
+        "verb1": "irr.する",
+        "verb2": "う.つる",
+        "verb3": "る"
+      }
     }
   }
 }

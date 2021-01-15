@@ -1,6 +1,9 @@
 // this code originally sourced from one of my other projects in a private repository.
 // Originally written in Python.
 
+//TODO: maybe reformat the verbs json file to group by type instead of having tos specify each time
+// also what about automatic types like a verb ends in xxx it's xxx type?
+
 const VOWEL_GROUPS = {
     "あ": ["あ", "か", "が", "さ", "ざ", "た", "だ", "な", "は", "ば", "ぱ", "ま", "や", "ら", "わ"],
     "い": ["い", "き", "ぎ", "し", "じ", "ち", "ぢ", "に", "ひ", "び", "ぴ", "み", "𛀆", "り", "ゐ"],
