@@ -2,6 +2,7 @@
 // Originally written in Python.
 
 //TODO: THIS IS THE PYTHON VERSION FORMATTED FOR JS!!!! MIGHT NOT ACTUALLY WORK IN JS!!!!
+//also regex101.com is my best friend
 const GROUPING_REGEX = /([a-zA-Z])|([ぁ-んァ-ン一-龯㐀-䶿！：／])|([0-9])|(.)/gm
 
 function getGroupedStringsFromConjugation(conjugation) {
