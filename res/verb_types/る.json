@@ -1,0 +1,48 @@
+{
+  "extends": "base",
+  "vars": {
+    "stem": "verb-1"
+  },
+  "regular": {
+    "nonPast": [
+      "verb",
+      "stem+ない"
+    ],
+    "past": [
+      "stem+た",
+      ""
+    ],
+    "potential": [
+      "stem+られる",
+      "stem+られない"
+    ],
+    "passive": [
+      "stem+られる",
+      "stem+られない"
+    ],
+    "causative": [
+      "stem+させる",
+      "stem+させない"
+    ],
+    "imperative": [
+      "stem+ろ",
+      ""
+    ],
+    "volitional": [
+      "verbう>お+う",
+      ""
+    ],
+    "volitionalPolite": [
+      "stem+ましょう",
+      ""
+    ]
+  },
+  "exceptions": {
+    "くれる": {
+      "imperative": [
+        "stem",
+        ""
+      ]
+    }
+  }
+}

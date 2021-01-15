@@ -1,0 +1,125 @@
+{
+  "extends": "base",
+  "vars": {
+    "stem": ""
+  },
+  "exceptions": {
+    "する": {
+      "stem": "",
+      "nonPast": [
+        "verb",
+        ""
+      ],
+      "nonPastPolite": [
+        "stem+ます",
+        "stem+ません"
+      ],
+      "past": [
+        "",
+        "nonPastNEGい:かった"
+      ],
+      "pastPolite": [
+        "stem+ました",
+        "stem+ませんでした"
+      ],
+      "teForm": [
+        "pastあ>え",
+        "nonPastNEGい:くて"
+      ],
+      "potential": [
+        "",
+        ""
+      ],
+      "passive": [
+        "",
+        ""
+      ],
+      "causative": [
+        "",
+        ""
+      ],
+      "causativePassive": [
+        "",
+        ""
+      ],
+      "imperative": [
+        "",
+        ""
+      ],
+      "volitionalPolite": [
+        "",
+        ""
+      ],
+      "volitional": [
+        "",
+        ""
+      ],
+      "taiFormNonPast": [
+        "",
+        ""
+      ],
+      "taiFormPast": [
+        "",
+        ""
+      ]
+    },
+    "来る": {
+      "nonPast": [
+        "",
+        ""
+      ],
+      "nonPastPolite": [
+        "stem+ます",
+        "stem+ません"
+      ],
+      "past": [
+        "",
+        "nonPastNEGい:かった"
+      ],
+      "pastPolite": [
+        "stem+ました",
+        "stem+ませんでした"
+      ],
+      "teForm": [
+        "pastあ>え",
+        "nonPastNEGい:くて"
+      ],
+      "potential": [
+        "",
+        ""
+      ],
+      "passive": [
+        "",
+        ""
+      ],
+      "causative": [
+        "",
+        ""
+      ],
+      "causativePassive": [
+        "",
+        ""
+      ],
+      "imperative": [
+        "",
+        ""
+      ],
+      "volitionalPolite": [
+        "",
+        ""
+      ],
+      "volitional": [
+        "",
+        ""
+      ],
+      "taiFormNonPast": [
+        "",
+        ""
+      ],
+      "taiFormPast": [
+        "",
+        ""
+      ]
+    }
+  }
+}

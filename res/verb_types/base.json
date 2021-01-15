@@ -1,0 +1,72 @@
+{
+  "extends": "",
+  "vars": {
+    "stem": ""
+  },
+  "regular": {
+    "nonPast": [
+      "verb",
+      ""
+    ],
+    "nonPastPolite": [
+      "stem+ます",
+      "stem+ません"
+    ],
+    "past": [
+      "",
+      "nonPastNEGい:かった"
+    ],
+    "pastPolite": [
+      "stem+ました",
+      "stem+ませんでした"
+    ],
+    "teForm": [
+      "pastあ>え",
+      "nonPastNEGい:くて"
+    ],
+    "potential": [
+      "",
+      ""
+    ],
+    "passive": [
+      "verbう>あ+れる",
+      "verbう>あ+れない"
+    ],
+    "causative": [
+      "",
+      ""
+    ],
+    "causativePassive": [
+      "causativeる:られる",
+      "causativeる:られない"
+    ],
+    "imperativePolite": [
+      "stem+なさい",
+      ""
+    ],
+    "imperative": [
+      "",
+      "verb+な"
+    ],
+    "volitionalPolite": [
+      "",
+      "nonPastPolite+まい"
+    ],
+    "volitional": [
+      "",
+      ""
+    ],
+    "taiFormNonPast": [
+      "",
+      ""
+    ],
+    "taiFormPast": [
+      "",
+      ""
+    ],
+    "withoutFormPolite": "nonPastNEGない:ず",
+    "withoutForm": "nonPastNEG+で"
+  },
+  "exceptions": {
+  }
+}

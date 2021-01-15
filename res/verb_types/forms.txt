@@ -1,0 +1,16 @@
+Non-past
+Non-past, polite
+Past
+Past, polite
+Te-form
+Potential
+Passive
+Causative
+Causative Passive
+Imperative
+Volitional
+Volitional Polite
+Tai-form Non-past
+Tai-form Past
+
++ and - for each
