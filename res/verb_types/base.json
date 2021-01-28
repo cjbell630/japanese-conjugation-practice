@@ -5,7 +5,7 @@
   },
   "regular": {
     "nonPast": [
-      "verb",
+      "word",
       ""
     ],
     "nonPastPolite": [
@@ -29,8 +29,8 @@
       ""
     ],
     "passive": [
-      "verbう>あ+れる",
-      "verbう>あ+れない"
+      "wordう>あ+れる",
+      "wordう>あ+れない"
     ],
     "causative": [
       "",
@@ -46,7 +46,7 @@
     ],
     "imperative": [
       "",
-      "verb+な"
+      "word+な"
     ],
     "volitionalPolite": [
       "",

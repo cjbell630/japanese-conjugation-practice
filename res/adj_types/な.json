@@ -1,0 +1,30 @@
+{
+  "extends": "base",
+  "vars": {
+    "stem": "word"
+  },
+  "regular": {
+    "nonPastPredi": [
+      "word+です",
+      "word+じゃないです"
+    ],
+    "nonPastPrenom": [
+      "word+な",
+      "word+じゃない"
+    ],
+    "pastPredi": [
+      "word+でした",
+      "word+じゃなかったです"
+    ],
+    "pastPrenom": [
+      "word+だった",
+      "word+じゃなかった"
+    ],
+    "teForm": [
+      "word+で",
+      "nonPastPrenomい>くて"
+    ]
+  },
+  "exceptions": {
+  }
+}

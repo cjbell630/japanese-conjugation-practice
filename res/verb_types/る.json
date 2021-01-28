@@ -1,11 +1,11 @@
 {
   "extends": "base",
   "vars": {
-    "stem": "verb-1"
+    "stem": "word-1"
   },
   "regular": {
     "nonPast": [
-      "verb",
+      "word",
       "stem+ない"
     ],
     "past": [
@@ -29,7 +29,7 @@
       ""
     ],
     "volitional": [
-      "verbう>お+う",
+      "wordう>お+う",
       ""
     ],
     "volitionalPolite": [

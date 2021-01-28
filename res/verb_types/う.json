@@ -1,28 +1,28 @@
 {
   "extends": "base",
   "vars": {
-    "stem": "verbう>い"
+    "stem": "wordう>い"
   },
   "regular": {
     "nonPast": [
-      "verb",
-      "verbう>あ+ない"
+      "word",
+      "wordう>あ+ない"
     ],
     "potential": [
-      "verbう>え+る",
-      "verbう>え+ない"
+      "wordう>え+る",
+      "wordう>え+ない"
     ],
     "causative": [
-      "verbう>あ+せる",
-      "verbう>あ+せない"
+      "wordう>あ+せる",
+      "wordう>あ+せない"
     ],
     "imperative": [
-      "verbう>え",
+      "wordう>え",
       ""
     ],
     "volitional": [
-      "verbう>お+う",
-      "verb+まい"
+      "wordう>お+う",
+      "word+まい"
     ],
     "volitionalPolite": [
       "stem+ましょう",
@@ -32,47 +32,47 @@
   "exceptions": {
     "す": {
       "past": [
-        "verbす:した",
+        "wordす:した",
         ""
       ]
     },
     "く": {
       "past": [
-        "verbく:いた",
+        "wordく:いた",
         ""
       ]
     },
     "ぐ": {
       "past": [
-        "verbぐ:いだ",
+        "wordぐ:いだ",
         ""
       ]
     },
     "むぶぬ": {
       "past": [
-        "verb-1+んだ",
+        "word-1+んだ",
         ""
       ]
     },
     "う": {
       "nonPast": [
         "",
-        "verbう:わない"
+        "wordう:わない"
       ],
       "past": [
-        "verbう:った",
+        "wordう:った",
         ""
       ]
     },
     "つる": {
       "past": [
-        "verb-1+った",
+        "word-1+った",
         ""
       ]
     },
     "いく": {
       "past": [
-        "verbく:った",
+        "wordく:った",
         ""
       ]
     },

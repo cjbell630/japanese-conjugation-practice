@@ -1,0 +1,30 @@
+{
+  "extends": "",
+  "vars": {
+    "stem": ""
+  },
+  "regular": {
+    "nonPastPredi": [
+      "word",
+      ""
+    ],
+    "nonPastPrenom": [
+      "",
+      ""
+    ],
+    "pastPredi": [
+      "",
+      ""
+    ],
+    "pastPrenom": [
+      "",
+      ""
+    ],
+    "teForm": [
+      "",
+      ""
+    ]
+  },
+  "exceptions": {
+  }
+}
