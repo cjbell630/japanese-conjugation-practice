@@ -18,4 +18,12 @@ function merge(list0, list1) {
             list0[i] = list1[i];
         }
     }
+    return list0;
 }
+
+/* TESTS */
+[
+    [["hello", ""], ["", "goodbye"], ["hello", "goodbye"]]]
+    .forEach(pair => {
+    console.log("Expected: " + pair[2] + "\nActual:   " + merge(pair[0], pair[1]));
+});
