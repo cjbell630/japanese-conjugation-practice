@@ -12,9 +12,79 @@ const VOWEL_GROUPS = {
     "お": ["お", "こ", "ご", "そ", "ぞ", "と", "ど", "の", "ほ", "ぼ", "ぽ", "も", "よ", "ろ", "を"]
 }
 
+const ALPHA_REGEX = /^[a-zA-Z]+$/;
+
 //patterns is dict
 function conjugateFromPatterns(patterns) {
+    Object.keys(patterns).forEach(formName => {
+        if (Array.isArray(patterns[formName])) {
+            console.log("pair (whatever that means)");
+        } else {
+            //TODO: why did I need to do this?
+            patterns[formName] = [patterns[formName]];
+        }
+        let subformNum = 0;
+        Object.values(patterns[formName]).forEach(subform => {
+            let split = getGroupedStringsFromConjugation(subform);
+            let word = "";
+            let count = 0;
+            while (count < split.length) {
+                let kw = split[count];
+                console.log("kw: " + kw);
+                console.log("regex match: " + kw.match(ALPHA_REGEX));
 
+                if (kw.match(ALPHA_REGEX) != null) { //TODO: technically should be equal to the entirety of kw
+                    console.log("recalling var");
+                    //below from python
+                    // TODO: the negative could potentially be conditional
+                    // ie if I finish and I find that every time I use NEG, it's the pattern for a negative conjugation,
+                    // I could just say patterns[kw][subform_num] if it's a list, and patterns[kw] if not
+
+                    let otherForm = kw.endsWith("NEG") ? patterns[kw.substring(0, kw.length - 3)][1] : patterns[kw];
+                    console.log(otherForm);
+                    word += Array.isArray(otherForm) ? otherForm[0] : otherForm;
+                    count++;
+                } else if (kw === "+") {
+                    console.log("plus sign");
+                    word += split[count + 1];
+                    count += 2;
+                } else if (kw === ">") {
+                    console.log("morph");
+                    let character = word.charAt(word.length - 1);
+                    word = word.substring(0, word.length - 1); // removes the last char
+                    // from python:
+                    // gets the corresponding vowel version of the final char in the string
+                    character = VOWEL_GROUPS[split[count + 1]][VOWEL_GROUPS[split[count - 1]].indexOf(character)];
+                    word += character; //TODO: could merge into above line
+                    count += 2
+                } else if (kw === "-") {
+                    console.log("remove");
+                    //TODO: remvoe the ! and rework
+                    let lengthToRemove = !isNaN(split[count + 1]) ? parseInt(split[count + 1]) :
+                        word.endsWith(split[count + 1]) ? split[count + 1].length : 0;
+                    console.log("length to remove: " + lengthToRemove);
+                    console.log("word before substring: " + word);
+                    word = word.substring(0, word.length - lengthToRemove);
+                    console.log("word after substring: " + word);
+                    count += 2;
+                } else if (kw === ":") {
+                    console.log("replace " + split[count - 1] + " with " + split[count + 1]);
+                    word = word.substring(0, word.length - split[count - 1].length);
+                    word += split[count + 1];
+                    count += 2;
+                } else {
+                    console.log("stray char");
+                    count++;
+                }
+                console.log("current word: " + word);
+                //return;
+            }
+            console.log("finished word");
+            patterns[formName][subformNum] = word;
+            subformNum++;
+        });
+    });
+    return patterns;
 }
 
 //works the same as the python version
@@ -60,9 +130,10 @@ function getPatternsDictForWord(word, identification) {
         level++;
     }
     console.log(patterns);
+    return patterns;
 }
 
-getPatternsDictForWord("成る", "う.つる");
+console.log(conjugateWord("成る", "う.つる"));
 
 function conjugateWord(word, identification) {
     return conjugateFromPatterns(getPatternsDictForWord(word, identification));
