@@ -1,100 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Japanese Conjugation Practice</title>
-    <!--- TODO: figure out which one is proper naming convention--->
-    <link href="app/images/favicon.ico" rel="icon">
-    <link rel="manifest" href="manifest.webapp">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/sidenav.css">
-    <link rel="stylesheet" href="css/main.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!---<script src="service-worker.js"></script>--->
-    <script src="register-sw.js"></script>
-    <script src="res/json-contents.js"></script>
-    <script src="script/util.js"></script>
-    <script src="script/conjugation-parser.js"></script>
-    <script src="script/conjugator.js"></script>
-    <script src="res/words.js"></script>
-</head>
-<body style="background-color: grey">
+    <head>
+        <meta charset="UTF-8">
+        <title>Japanese Conjugation Practice</title>
+        <!--- TODO: figure out which one is proper naming convention--->
+        <link href="app/images/favicon.ico" rel="icon">
+        <link rel="manifest" href="manifest.webapp">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/sidenav.css">
+        <link rel="stylesheet" href="css/main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!---<script src="service-worker.js"></script>--->
+        <script src="register-sw.js"></script>
+        <script src="res/json-contents.js"></script>
+        <script src="script/util.js"></script>
+        <script src="script/conjugation-parser.js"></script>
+        <script src="script/conjugator.js"></script>
+        <script src="res/words.js"></script>
+    </head>
+    <body style="background-color: grey">
 
-<div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
-</div>
-<!-- Use any element to open the sidenav -->
-<span onclick="openNav()" class="fa fa-bars" style="font-size: 4vw;"></span>
+        <div id="mainSidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn linked" onclick="closeNav()">&times;</a>
+            <a href="#" class="linked">Item 0</a>
+            <a href="#" class="linked">Item 1</a>
+            <a href="#" class="linked">Item 2</a>
+            <a>Wordbanks
+                <ul id="groupSelector" class="caretUL">
+                    <li><span class="caret">Genki 1</span>
+                        <ul class="nested">
+                            <li><span class="box">Lesson 3</span></li>
+                            <li><span class="box">Lesson 4</span></li>
+                            <li><span class="box">Lesson 5</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </a>
+        </div>
+        <!-- Use any element to open the sidenav -->
+        <span onclick="openNav()" class="fa fa-bars" style="font-size: 10vw;"></span>
 
-<label for="wordDropdown"></label><select id="wordDropdown"></select>
-<label for="formDropdown"></label><select id="formDropdown"></select>
-<button id="goButton" onclick="goButtonClick()">Go</button>
-<br/>
-<p id="versionNumber">v0.0.2 a 1</p>
-<button id="updateButton" onclick="update()" hidden>Update</button>
-<p id="resultsP">No results yet</p>
-<script>
-    let wordDropdown = document.getElementById("wordDropdown");
-    let formDropdown = document.getElementById("formDropdown");
-    let resultsP = document.getElementById("resultsP");
+        <label for="wordDropdown"></label><select id="wordDropdown"></select>
+        <label for="formDropdown"></label><select id="formDropdown"></select>
+        <button id="goButton" onclick="goButtonClick()">Go</button>
+        <br/>
+        <p id="versionNumber">v0.0.2 a 2</p>
+        <button id="updateButton" onclick="update()" hidden>Update</button>
+        <p id="resultsP">No results yet</p>
+        <script>
+            let wordDropdown = document.getElementById("wordDropdown");
+            let formDropdown = document.getElementById("formDropdown");
+            let resultsP = document.getElementById("resultsP");
 
-    function loadWords() {
-        Object.keys(VERBS["Genki 1"]["Lesson 3"]).forEach(verb => {
-            let option = document.createElement("option");
-            option.textContent = verb;
-            option.value = verb;
-            wordDropdown.appendChild(option);
-        });
-    }
+            function loadWords() {
+                Object.keys(VERBS["Genki 1"]["Lesson 3"]).forEach(verb => {
+                    let option = document.createElement("option");
+                    option.textContent = verb;
+                    option.value = verb;
+                    wordDropdown.appendChild(option);
+                });
+            }
 
-    function loadForms() {
-        Object.keys(JSON_CONTENTS["verbs"]["base"]["regular"]).forEach(formGroupName => {
-            let forms = JSON_CONTENTS["verbs"]["base"]["regular"][formGroupName].length === 1 ?
-                [formGroupName] : [formGroupName, formGroupName + "NEG"];
+            function loadForms() {
+                Object.keys(JSON_CONTENTS["verbs"]["base"]["regular"]).forEach(formGroupName => {
+                    let forms = JSON_CONTENTS["verbs"]["base"]["regular"][formGroupName].length === 1 ?
+                        [formGroupName] : [formGroupName, formGroupName + "NEG"];
 
-            forms.forEach(formID => {
-                let option = document.createElement("option");
-                option.textContent = formID; //TODO: replace with user friendly name
-                option.value = formID;
-                formDropdown.appendChild(option);
-            });
-        });
-    }
+                    forms.forEach(formID => {
+                        let option = document.createElement("option");
+                        option.textContent = formID; //TODO: replace with user friendly name
+                        option.value = formID;
+                        formDropdown.appendChild(option);
+                    });
+                });
+            }
 
-    function goButtonClick() {
-        let raw = conjugateWord(wordDropdown.value, VERBS["Genki 1"]["Lesson 3"][wordDropdown.value]);
-        console.log("button raw result: ");
-        console.log(raw);
-        console.log("raw json: ");
-        console.log(JSON_CONTENTS);
-        resultsP.innerText =
-            raw[formDropdown.value.replace("NEG", "")][formDropdown.value.endsWith("NEG") ? 1 : 0];
-    }
+            function goButtonClick() {
+                let raw = conjugateWord(wordDropdown.value, VERBS["Genki 1"]["Lesson 3"][wordDropdown.value]);
+                console.log("button raw result: ");
+                console.log(raw);
+                console.log("raw json: ");
+                console.log(JSON_CONTENTS);
+                resultsP.innerText =
+                    raw[formDropdown.value.replace("NEG", "")][formDropdown.value.endsWith("NEG") ? 1 : 0];
+            }
 
-    function update() {
-        //https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
-        //newWorker.postMessage({action: "skipWaiting"}); //TODO: doesn't seem to do anything
-        //Clients.claim();
-        //newWorker.skipWaiting();
-        window.location.reload(); //refresh the page to apply updates
-    }
+            function update() {
+                //https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
+                //newWorker.postMessage({action: "skipWaiting"}); //TODO: doesn't seem to do anything
+                //Clients.claim();
+                //newWorker.skipWaiting();
+                window.location.reload(); //refresh the page to apply updates
+            }
 
-    /* Set the width of the side navigation to 250px */
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-    }
+            /* Set the width of the side navigation to 250px */
+            function openNav() {
+                document.getElementById("mainSidenav").style.width = "250px";
+            }
 
-    /* Set the width of the side navigation to 0 */
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-    }
+            /* Set the width of the side navigation to 0 */
+            function closeNav() {
+                document.getElementById("mainSidenav").style.width = "0";
+            }
 
-    loadForms();
-    loadWords();
-</script>
-</body>
+            //https://www.w3schools.com/howto/howto_js_treeview.asp
+            function addListeners() {
+                let carets = document.getElementsByClassName("caret");
+
+                for (let i = 0; i < carets.length; i++) {
+                    carets[i].addEventListener("click", function () {
+                        this.parentElement.querySelector(".nested").classList.toggle("active");
+                        this.classList.toggle("caret-down");
+                    });
+                }
+
+                let checkboxes = document.getElementsByClassName("box");
+
+                for (let i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].setAttribute("checked", "false");
+                    checkboxes[i].addEventListener("click", function () {
+                        this.classList.toggle("check-box");
+                        this.setAttribute("checked", this.getAttribute("checked") === "true" ? "false" : "true");
+                    });
+                }
+            }
+
+            addListeners();
+            loadForms();
+            loadWords();
+        </script>
+    </body>
 </html>
