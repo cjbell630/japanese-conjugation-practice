@@ -1,10 +1,5 @@
 let newWorker;
 
-//https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
-document.getElementById("updateButton").addEventListener("click", function () {
-    newWorker.postMessage({action: "skipWaiting"});
-});
-
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         console.log("Window Loaded");
