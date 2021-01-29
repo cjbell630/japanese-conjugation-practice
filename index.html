@@ -138,14 +138,13 @@
                 }
             }
 
-            function setVersionNumber() {
-                document.getElementById("versionNumber").innerText = cacheName;
+            function setVersionNumber(version) {
+                document.getElementById("versionNumber").innerText =  version;
             }
 
             addListeners();
             loadForms();
             loadWords();
-            setVersionNumber();
         </script>
     </body>
 </html>

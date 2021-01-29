@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 4";
+let cacheName = "v0.0.2 a 5";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -47,6 +47,7 @@ self.addEventListener("activate", (event) => {
             }
         })
     );
+    setVersionNumber(cacheName);
 });
 
 self.addEventListener("fetch", (event) => {
