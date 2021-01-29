@@ -25,7 +25,7 @@
             <a href="javascript:void(0)" class="closebtn linked" onclick="closeNav()">&times;</a>
             <a href="#" class="linked">Item 0</a>
             <a href="#" class="linked">Item 1</a>
-            <a href="#" class="linked">Item 2</a>
+            <a href="javascript:forceReload()" class="linked">Force Reload</a>
             <a>Wordbanks
                 <ul id="groupSelector" class="caretUL">
                     <li><span class="caret">Genki 1</span>
@@ -37,6 +37,7 @@
                     </li>
                 </ul>
             </a>
+            <a style="position: absolute; bottom: 70px;" id="versionNumber"></a>
         </div>
         <!-- Use any element to open the sidenav -->
         <span onclick="openNav()" class="fa fa-bars" style="font-size: 10vw;"></span>
@@ -45,7 +46,6 @@
         <label for="formDropdown"></label><select id="formDropdown"></select>
         <button id="goButton" onclick="goButtonClick()">Go</button>
         <br/>
-        <p id="versionNumber">v0.0.2 a 3</p>
         <button id="updateButton" onclick="update()" hidden>Update</button>
         <p id="resultsP">No results yet</p>
         <script>
@@ -94,6 +94,18 @@
                 window.location.reload(); //refresh the page to apply updates
             }
 
+            function forceReload() {
+                console.log("Deleting caches");
+                caches.keys().then(strArray => strArray.forEach(string => {
+                        console.log("Deleting cache " + string);
+                        if (string !== cacheName) {
+                            caches.delete(string);
+                        }
+                    })
+                );
+                window.location.reload();
+            }
+
             /* Set the width of the side navigation to 250px */
             function openNav() {
                 document.getElementById("mainSidenav").style.width = "250px";
@@ -126,9 +138,14 @@
                 }
             }
 
+            function setVersionNumber() {
+                document.getElementById("versionNumber").innerText = cacheName;
+            }
+
             addListeners();
             loadForms();
             loadWords();
+            setVersionNumber();
         </script>
     </body>
 </html>
