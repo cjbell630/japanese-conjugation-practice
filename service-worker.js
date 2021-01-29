@@ -17,7 +17,7 @@ let appShellFiles = [
     "app/images/icon-512.png"
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
     //https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Offline_Service_workers
     console.log('Inside the install handler:', event);
     event.waitUntil(
@@ -28,11 +28,11 @@ self.addEventListener('install', (event) => {
     );
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
     console.log('Inside the activate handler:', event);
 });
 
-self.addEventListener(fetch, (event) => {
+self.addEventListener("fetch", (event) => {
     //https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Offline_Service_workers
     console.log('Inside the fetch handler:', event);
     event.respondWith(
