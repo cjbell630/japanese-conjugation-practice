@@ -1,14 +1,20 @@
-let cacheName = "jcp-0-0-1-a-11";
+let cacheName = "jcp-0-0-2-a-1";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
     "register-sw.js",
     "service-worker.js",
+
     "res/json-contents.js",
     "res/words.js",
+
     "script/conjugation-parser.js",
     "script/conjugator.js",
     "script/util.js",
+
+    "css/main.css",
+    "css/sidenav.css",
+
     "app/images/favicon.ico",
     "app/images/icon-032.png",
     "app/images/icon-064.png",

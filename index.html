@@ -6,6 +6,10 @@
     <!--- TODO: figure out which one is proper naming convention--->
     <link href="app/images/favicon.ico" rel="icon">
     <link rel="manifest" href="manifest.webapp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/sidenav.css">
+    <link rel="stylesheet" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!---<script src="service-worker.js"></script>--->
     <script src="register-sw.js"></script>
     <script src="res/json-contents.js"></script>
@@ -14,12 +18,23 @@
     <script src="script/conjugator.js"></script>
     <script src="res/words.js"></script>
 </head>
-<body>
+<body style="background-color: grey">
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+<!-- Use any element to open the sidenav -->
+<span onclick="openNav()" class="fa fa-bars" style="font-size: 4vw;"></span>
+
 <label for="wordDropdown"></label><select id="wordDropdown"></select>
 <label for="formDropdown"></label><select id="formDropdown"></select>
 <button id="goButton" onclick="goButtonClick()">Go</button>
 <br/>
-<p id="versionNumber">v0.0.1 a 11</p>
+<p id="versionNumber">v0.0.2 a 1</p>
 <button id="updateButton" onclick="update()" hidden>Update</button>
 <p id="resultsP">No results yet</p>
 <script>
@@ -66,6 +81,16 @@
         //Clients.claim();
         //newWorker.skipWaiting();
         window.location.reload(); //refresh the page to apply updates
+    }
+
+    /* Set the width of the side navigation to 250px */
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
     }
 
     loadForms();
