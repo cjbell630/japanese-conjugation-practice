@@ -1,4 +1,4 @@
-const versionNumber = "v0.0.2 a 8";
+const versionNumber = "v0.0.2 a 9";
 
 let newWorker;
 
@@ -34,3 +34,4 @@ if ("serviceWorker" in navigator) {
         });
     });
 }
+

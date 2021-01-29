@@ -91,6 +91,9 @@
                 //newWorker.postMessage({action: "skipWaiting"}); //TODO: doesn't seem to do anything
                 //Clients.claim();
                 //newWorker.skipWaiting();
+                navigator.serviceWorker.getRegistration().then(registration => {
+                    registration.unregister();
+                });
                 window.location.reload(); //refresh the page to apply updates
             }
 
