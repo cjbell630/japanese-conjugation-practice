@@ -2,8 +2,8 @@
   "version": "0.0.0",
   "name": "Japanese Conjugation Practice",
   "short_name": "JCP",
-  "launch_path": "https://cjbell630.github.io/japanese-conjugation-practice/",
-  "start_url": "https://cjbell630.github.io/japanese-conjugation-practice/",
+  "launch_path": "index.html",
+  "start_url": "index.html",
   "description": "[TBA]",
   "icons": [
     {
