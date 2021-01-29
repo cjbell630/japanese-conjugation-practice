@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 24";
+let cacheName = "v0.0.2 a 25";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -54,16 +54,23 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
     //https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Offline_Service_workers
     console.log('Inside the fetch handler:', event);
-    event.respondWith(
-        caches.match(event.request).then((r) => {
-            console.log("[Service Worker {" + cacheName + "}] Fetching resource: " + event.request.url);
-            return r || fetch(event.request).then((response) => {
-                return caches.open(cacheName).then((cache) => {
-                    console.log("[Service Worker {" + cacheName + "}] Caching new resource: " + event.request.url);
-                    cache.put(event.request, response.clone());
-                    return response;
-                });
+    let response;
+    caches.open(cacheName).then(cache => { // open my cache
+            cache.match(event.request).match(event.request).then((cacheResponse) => {
+                console.log("[Service Worker {" + cacheName + "}] Fetching resource: " + event.request.url);
+                if (cacheResponse !== null && cacheResponse !== undefined) { // have file in cache
+                    response = cacheResponse
+                } else { // need to download the file
+                    fetch(event.request).then((onlineResponse) => {
+                        caches.open(cacheName).then((cache) => {
+                            console.log("[Service Worker {" + cacheName + "}] Caching new resource: " + event.request.url);
+                            cache.put(event.request, onlineResponse.clone());
+                            response = onlineResponse;
+                        });
+                    });
+                }
             });
-        })
+        }
     );
+    event.respondWith(response);
 });
