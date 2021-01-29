@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 29";
+let cacheName = "v0.0.2 a 30";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -56,6 +56,7 @@ self.addEventListener("fetch", (event) => {
     console.log('Inside the fetch handler:', event);
     let response;
     caches.open(cacheName).then(cache => { // open my cache
+            console.log("cache opened");
             if (cache === null || cache === undefined) {
                 console.log("undefined or null cache");
             }
