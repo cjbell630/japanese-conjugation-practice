@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 32";
+let cacheName = "v0.0.2 a 33";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -57,29 +57,33 @@ self.addEventListener("fetch", (event) => {
     let response;
     console.log("fghxdfghd");
     console.log("sdgsgdfgfg dfg");
-    event.waitUntil(caches.open(cacheName).then(cache => { // open my cache
-            console.log("cache opened");
-            if (cache === null || cache === undefined) {
-                console.log("undefined or null cache");
-            }
-            cache.match(event.request).then((cacheResponse) => {
-                console.log("[Service Worker {" + cacheName + "}] Fetching resource: " + event.request.url);
-                if (cacheResponse !== undefined) { // have file in cache
-                    console.log("found file in cache");
-                    console.log("responding with:");
-                    console.log(cacheResponse);
-                    event.respondWith(cacheResponse);
-                } else { // need to download the file
-                    fetch(event.request).then((onlineResponse) => {
-                        console.log("[Service Worker {" + cacheName + "}] Caching new resource: " + event.request.url);
-                        cache.put(event.request, onlineResponse.clone());
-                        console.log("downloaded file");
-                        console.log("responding with:");
-                        console.log(onlineResponse);
-                        event.respondWith(onlineResponse);
-                    });
+    event.waitUntil(
+        caches.open(cacheName).then(cache => { // open my cache
+                console.log("cache opened");
+                if (cache === null || cache === undefined) {
+                    console.log("undefined or null cache");
                 }
-            });
-        }
-    ));
+
+                event.waitUntil(
+                    cache.match(event.request).then((cacheResponse) => {
+                        console.log("[Service Worker {" + cacheName + "}] Fetching resource: " + event.request.url);
+                        if (cacheResponse !== undefined) { // have file in cache
+                            console.log("found file in cache");
+                            console.log("responding with:");
+                            console.log(cacheResponse);
+                            event.respondWith(cacheResponse);
+                        } else { // need to download the file
+                            event.respondWith(fetch(event.request).then((onlineResponse) => {
+                                console.log("[Service Worker {" + cacheName + "}] Caching new resource: " + event.request.url);
+                                cache.put(event.request, onlineResponse.clone());
+                                console.log("downloaded file");
+                                console.log("responding with:");
+                                console.log(onlineResponse);
+                                return onlineResponse;
+                            }));
+                        }
+                    }));
+            }
+        )
+    );
 });
