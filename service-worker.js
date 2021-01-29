@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 28";
+let cacheName = "v0.0.2 a 29";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -56,19 +56,26 @@ self.addEventListener("fetch", (event) => {
     console.log('Inside the fetch handler:', event);
     let response;
     caches.open(cacheName).then(cache => { // open my cache
+            if (cache === null || cache === undefined) {
+                console.log("undefined or null cache");
+            }
             cache.match(event.request).then((cacheResponse) => {
                 console.log("[Service Worker {" + cacheName + "}] Fetching resource: " + event.request.url);
                 if (cacheResponse !== undefined) { // have file in cache
                     response = cacheResponse
+                    console.log("found file in cache");
                 } else { // need to download the file
                     fetch(event.request).then((onlineResponse) => {
                         console.log("[Service Worker {" + cacheName + "}] Caching new resource: " + event.request.url);
                         cache.put(event.request, onlineResponse.clone());
                         response = onlineResponse;
                     });
+                    console.log("downloaded file");
                 }
             });
         }
     );
+    console.log("responding with:");
+    console.log(response);
     event.respondWith(response);
 });
