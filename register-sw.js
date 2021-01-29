@@ -1,4 +1,4 @@
-const versionNumber = "v0.0.2 a 16";
+const versionNumber = "v0.0.2 a 17";
 
 let newWorker;
 
@@ -24,14 +24,15 @@ if ("serviceWorker" in navigator) {
                             // There is a new service worker available, show the notification
                             if (navigator.serviceWorker.controller) {
                                 //https://stackoverflow.com/a/52238757/12861567
-                                if ('serviceWorker' in navigator) {
+                                /*if ('serviceWorker' in navigator) {
                                     navigator.serviceWorker.getRegistrations().then(function (registrations) {
                                         for (let registration of registrations) {
                                             console.log("[Service Worker] Updating registration");
                                             registration.update();
                                         }
                                     })
-                                }
+                                }*/
+
                                 let notification = document.getElementById("updateButton");
                                 notification.removeAttribute("hidden");
                             }

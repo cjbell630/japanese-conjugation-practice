@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 16";
+let cacheName = "v0.0.2 a 17";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -32,7 +32,6 @@ self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(cacheName).then((cache) => {
             console.log("[Service Worker {" + cacheName + "}] Caching all: app shell and content");
-            location.reload(); // attempt
             return cache.addAll(appShellFiles);
         })
     );
@@ -42,8 +41,9 @@ self.addEventListener("activate", (event) => {
     console.log('Inside the activate handler:', event);
     console.log("Deleting caches");
     caches.keys().then(strArray => strArray.forEach(string => {
-            console.log("Deleting cache " + string);
+            console.log("Found cache " + string);
             if (string !== cacheName) {
+                console.log("Deleting cache " + string);
                 caches.delete(string);
             }
         })
