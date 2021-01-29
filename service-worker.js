@@ -1,4 +1,4 @@
-let cacheName = "jcp-0-0-1-a-7";
+let cacheName = "jcp-0-0-1-a-8";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -21,9 +21,11 @@ let appShellFiles = [
 self.addEventListener("install", (event) => {
     //https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Offline_Service_workers
     console.log('Inside the install handler:', event);
+    self.skipWaiting();
+    console.log("[Service Worker {" + cacheName + "}] Skipped Waiting");
     event.waitUntil(
         caches.open(cacheName).then((cache) => {
-            console.log('[Service Worker] Caching all: app shell and content');
+            console.log("[Service Worker {" + cacheName + "}] Caching all: app shell and content");
             return cache.addAll(appShellFiles);
         })
     );

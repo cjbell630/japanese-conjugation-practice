@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>v0.0.1 a 7</title>
+    <title>v0.0.1 a 8</title>
     <!--- TODO: figure out which one is proper naming convention--->
     <link href="app/images/favicon.ico" rel="icon">
     <link rel="manifest" href="manifest.webapp">
@@ -19,7 +19,7 @@
 <label for="formDropdown"></label><select id="formDropdown"></select>
 <button id="goButton" onclick="goButtonClick()">Go</button>
 <br/>
-<p id="versionNumber">v0.0.1 a 7</p>
+<p id="versionNumber">v0.0.1 a 8</p>
 <button id="updateButton" onclick="update()" hidden>Update</button>
 <p id="resultsP">No results yet</p>
 <script>
@@ -63,7 +63,8 @@
     function update() {
         //https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
         //newWorker.postMessage({action: "skipWaiting"}); //TODO: doesn't seem to do anything
-        newWorker.skipWaiting();
+        //Clients.claim();
+        //newWorker.skipWaiting();
         location.reload(); //refresh the page to apply updates
     }
 
