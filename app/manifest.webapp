@@ -1,0 +1,25 @@
+{
+  "version": "0.0.0",
+  "name": "Japanese Conjugation Practice",
+  "launch_path": "/index.html",
+  "description": "[TBA]",
+  "icons": {
+    "128": "/app/images/icon-128.png"
+  },
+  "developer": {
+    "name": "Dev name",
+    "url": "dev url"
+  },
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "en",
+  "permissions": {
+  },
+  "locales": {
+    "en": {
+      "name": "This is the englush locale name",
+      "description": "This is the englush locale title"
+    }
+  }
+}

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="app/service-worker.js"></script>
     <script src="res/json_contents.js"></script>
     <script src="script/util.js"></script>
     <script src="script/conjugation-parser.js"></script>
@@ -52,8 +53,22 @@
             raw[formDropdown.value.replace("NEG", "")][formDropdown.value.endsWith("NEG") ? 1 : 0];
     }
 
+    function handleServiceWorker() {
+        //https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js').then(function (registration) {
+                // Registration was successful
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }).catch(function (err) {
+                // registration failed :(
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        }
+    }
+
     loadForms();
     loadWords();
+    handleServiceWorker();
 </script>
 </body>
 </html>
