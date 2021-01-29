@@ -91,6 +91,8 @@ function conjugateFromPatterns(patterns) {
 //TODO: documentation
 //TODO: clean
 function getPatternsDictForWord(word, identification) {
+    console.log("word: " + word);
+    console.log("identification: " + identification);
     identification = "base." + identification;
     let patterns = { // dict
         "word": "+" + word
@@ -104,12 +106,14 @@ function getPatternsDictForWord(word, identification) {
             //TODO: this just copies a dict into another dict, can be done cleaner
             patterns[varName] = JSON_CONTENTS["verbs"][levelName]["vars"][varName];
         });
-        Object.keys(JSON_CONTENTS["verbs"][levelName]["regular"]).forEach(formName => {
-            //TODO: this just copies a dict into another dict, can be done cleaner
-            patterns[formName] = Object.keys(patterns).includes(formName) ?
-                merge(patterns[formName], JSON_CONTENTS["verbs"][levelName]["regular"][formName]) :
-                JSON_CONTENTS["verbs"][levelName]["regular"][formName];
-        });
+        if(Object.keys(JSON_CONTENTS["verbs"][levelName]).includes("regular")) {
+            Object.keys(JSON_CONTENTS["verbs"][levelName]["regular"]).forEach(formName => {
+                //TODO: this just copies a dict into another dict, can be done cleaner
+                patterns[formName] = Object.keys(patterns).includes(formName) ?
+                    merge(patterns[formName], JSON_CONTENTS["verbs"][levelName]["regular"][formName]) :
+                    JSON_CONTENTS["verbs"][levelName]["regular"][formName];
+            });
+        }
 
         console.log(levelName);
         console.log(level);
@@ -133,7 +137,7 @@ function getPatternsDictForWord(word, identification) {
     return patterns;
 }
 
-console.log(conjugateWord("成る", "う.つる"));
+//console.log(conjugateWord("成る", "う.つる"));
 
 function conjugateWord(word, identification) {
     return conjugateFromPatterns(getPatternsDictForWord(word, identification));

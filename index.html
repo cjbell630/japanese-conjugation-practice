@@ -3,11 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="res/json_contents.js"></script>
+    <script src="script/util.js"></script>
+    <script src="script/conjugation-parser.js"></script>
+    <script src="script/conjugator.js"></script>
+    <script src="res/words.js"></script>
 </head>
 <body>
-<script src="res/json_contents.js"></script>
-<script src="script/util.js"></script>
-<script src="script/conjugation-parser.js"></script>
-<script src="script/conjugator.js"></script>
+<label for="wordDropdown"></label><select id="wordDropdown"></select>
+<label for="formDropdown"></label><select id="formDropdown"></select>
+<button id="goButton" onclick="goButtonClick()">Go</button>
+<p id="resultsP">No results yet</p>
+<script>
+    let wordDropdown = document.getElementById("wordDropdown");
+    let formDropdown = document.getElementById("formDropdown");
+    let resultsP = document.getElementById("resultsP");
+
+    function loadWords() {
+        Object.keys(VERBS["Genki 1"]["Lesson 3"]).forEach(verb => {
+            let option = document.createElement("option");
+            option.textContent = verb;
+            option.value = verb;
+            wordDropdown.appendChild(option);
+        });
+    }
+
+    function loadForms() {
+        Object.keys(JSON_CONTENTS["verbs"]["base"]["regular"]).forEach(formGroupName => {
+            let forms = JSON_CONTENTS["verbs"]["base"]["regular"][formGroupName].length === 1 ?
+                [formGroupName] : [formGroupName, formGroupName + "NEG"];
+
+            forms.forEach(formID => {
+                let option = document.createElement("option");
+                option.textContent = formID; //TODO: replace with user friendly name
+                option.value = formID;
+                formDropdown.appendChild(option);
+            });
+        });
+    }
+
+    function goButtonClick() {
+        let raw = conjugateWord(wordDropdown.value, VERBS["Genki 1"]["Lesson 3"][wordDropdown.value]);
+        console.log("button raw result: ");
+        console.log(raw);
+        console.log("raw json: ");
+        console.log(JSON_CONTENTS);
+        resultsP.innerText =
+            raw[formDropdown.value.replace("NEG", "")][formDropdown.value.endsWith("NEG") ? 1 : 0];
+    }
+
+    loadForms();
+    loadWords();
+</script>
 </body>
 </html>
