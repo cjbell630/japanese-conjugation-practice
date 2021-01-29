@@ -91,10 +91,11 @@
                 //newWorker.postMessage({action: "skipWaiting"}); //TODO: doesn't seem to do anything
                 //Clients.claim();
                 //newWorker.skipWaiting();
-                navigator.serviceWorker.getRegistration().then(registration => {
-                    registration.unregister();
-                });
-                window.location.reload(); //refresh the page to apply updates
+                //navigator.serviceWorker.getRegistration().then(registration => {
+                //    registration.unregister();
+                //});
+                //window.location.reload(); //refresh the page to apply updates
+                window.location.href = window.location.href;
             }
 
             function forceReload() {
@@ -106,7 +107,7 @@
                         }
                     })
                 );
-                window.location.reload();
+                window.location.href = window.location.href;
             }
 
             /* Set the width of the side navigation to 250px */
