@@ -17,6 +17,7 @@
     }
   ],
   "display": "standalone",
+  "prefer_related_applications" : false,
   "developer": {
     "name": "Dev name",
     "url": "dev url"
