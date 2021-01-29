@@ -5,6 +5,7 @@ if ("serviceWorker" in navigator) {
         console.log("Window Loaded");
         navigator.serviceWorker.register("service-worker.js").then(reg => {
             console.log("[Service Worker] Registered");
+            console.log("cache name attempt: " + reg.cacheName);
             reg.addEventListener("updatefound", () => {
                 console.log("[Service Worker] Update Found");
 
