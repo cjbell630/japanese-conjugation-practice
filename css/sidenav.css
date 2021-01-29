@@ -23,14 +23,17 @@
     display: block;
     transition: 0.3s;
 }
+
 /* The navigation menu links */
 .sidenav .linked {
     transition: 0.3s;
 }
+
 /* The navigation menu links */
 .sidenav .caret {
     transition: 0.3s;
 }
+
 /* The navigation menu links */
 .sidenav .box {
     transition: 0.3s;
@@ -40,9 +43,11 @@
 .sidenav .linked:hover {
     color: #f1f1f1;
 }
+
 .sidenav .caret:hover {
     color: #f1f1f1;
 }
+
 .sidenav .box:hover {
     color: #f1f1f1;
 }
@@ -94,15 +99,19 @@ ul, #caretUL {
 
 /* Create the caret/arrow with a unicode, and style it */
 .caret::before {
-    content: "\25B6";
+    /*right caret*/
+    content: "\1f53a";
     color: lightgrey;
     display: inline-block;
     margin-right: 6px;
+    transform: rotate(90deg);
 }
 
 /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
 .caret-down::before {
-    transform: rotate(90deg);
+    /*downwards caret*/
+    content: "\1f53b";
+    transform: rotate(0deg);
 }
 
 /* Hide the nested list */
@@ -126,13 +135,15 @@ ul, #caretUL {
 
 /* checkboxes */
 .box::before {
-    content: "\2610";
+    /*unchecked*/
+    content: "\25fb";
     color: lightgrey;
     display: inline-block;
     margin-right: 6px;
 }
 
 .check-box::before {
+    /*checked*/
     content: "\2611";
     color: dodgerblue;
 }

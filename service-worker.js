@@ -1,4 +1,4 @@
-let cacheName = "jcp-0-0-2-a-2";
+let cacheName = "jcp-0-0-2-a-3";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
