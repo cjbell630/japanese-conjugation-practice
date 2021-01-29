@@ -1,3 +1,5 @@
+const versionNumber = "v0.0.2 a 8";
+
 let newWorker;
 
 if ("serviceWorker" in navigator) {
@@ -5,7 +7,6 @@ if ("serviceWorker" in navigator) {
         console.log("Window Loaded");
         navigator.serviceWorker.register("service-worker.js").then(reg => {
             console.log("[Service Worker] Registered");
-            console.log("cache name attempt: " + reg.cacheName);
             reg.addEventListener("updatefound", () => {
                 console.log("[Service Worker] Update Found");
 
