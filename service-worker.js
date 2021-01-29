@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 14";
+let cacheName = "v0.0.2 a 15";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -32,6 +32,7 @@ self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(cacheName).then((cache) => {
             console.log("[Service Worker {" + cacheName + "}] Caching all: app shell and content");
+            window.location.reload(); // attempt
             return cache.addAll(appShellFiles);
         })
     );
