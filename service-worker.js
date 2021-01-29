@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 22";
+let cacheName = "v0.0.2 a 23";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -22,6 +22,8 @@ let appShellFiles = [
     "app/images/icon-256.png",
     "app/images/icon-512.png"
 ];
+
+self.cacheName = cacheName;
 
 self.addEventListener("install", (event) => {
     //https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Offline_Service_workers
