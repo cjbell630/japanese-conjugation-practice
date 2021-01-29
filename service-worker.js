@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 17";
+let cacheName = "v0.0.2 a 18";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -44,7 +44,7 @@ self.addEventListener("activate", (event) => {
             console.log("Found cache " + string);
             if (string !== cacheName) {
                 console.log("Deleting cache " + string);
-                caches.delete(string);
+                //caches.delete(string);
             }
         })
     );
