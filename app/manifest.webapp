@@ -1,7 +1,7 @@
 {
   "version": "0.0.0",
   "name": "Japanese Conjugation Practice",
-  "sort_name": "JCP",
+  "short_name": "JCP",
   "launch_path": "index.html",
   "start_url": "index.html",
   "description": "[TBA]",
