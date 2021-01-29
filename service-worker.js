@@ -1,6 +1,9 @@
-let cacheName = 'jcp-0-0-0-a-14';
+let cacheName = 'jcp-0-0-0-a-16';
 let appShellFiles = [
     "index.html",
+    "manifest.webapp",
+    "register-sw.js",
+    "service-worker.js",
     "res/json-contents.js",
     "res/words.js",
     "script/conjugation-parser.js",
