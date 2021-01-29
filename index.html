@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>v0.0.0 a 19</title>
+    <title>v0.0.1 a 0</title>
     <link rel="manifest" href="manifest.webapp">
     <!---<script src="service-worker.js"></script>--->
     <script src="register-sw.js"></script>
@@ -16,6 +16,9 @@
 <label for="wordDropdown"></label><select id="wordDropdown"></select>
 <label for="formDropdown"></label><select id="formDropdown"></select>
 <button id="goButton" onclick="goButtonClick()">Go</button>
+<br/>
+<p id="versionNumber">v0.0.1 a 0</p>
+<button id="updateButton" hidden>Update</button>
 <p id="resultsP">No results yet</p>
 <script>
     let wordDropdown = document.getElementById("wordDropdown");

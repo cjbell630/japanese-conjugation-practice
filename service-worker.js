@@ -1,4 +1,4 @@
-let cacheName = 'jcp-0-0-0-a-19';
+let cacheName = 'jcp-0-0-1-a-0';
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -9,6 +9,7 @@ let appShellFiles = [
     "script/conjugation-parser.js",
     "script/conjugator.js",
     "script/util.js",
+    "favicon.ico",
     "app/images/icon-032.png",
     "app/images/icon-064.png",
     "app/images/icon-128.png",
