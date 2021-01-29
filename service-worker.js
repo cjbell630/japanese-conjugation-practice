@@ -1,4 +1,4 @@
-let cacheName = "jcp-0-0-1-a-3";
+let cacheName = "jcp-0-0-1-a-4";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -31,6 +31,14 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
     console.log('Inside the activate handler:', event);
+    console.log("Deleting caches");
+    caches.keys().then(strArray => strArray.forEach(string => {
+            console.log("Deleting cache " + string);
+            if (string !== cacheName) {
+                caches.delete(string);
+            }
+        })
+    );
 });
 
 self.addEventListener("fetch", (event) => {
