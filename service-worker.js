@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 30";
+let cacheName = "v0.0.2 a 31";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -55,7 +55,7 @@ self.addEventListener("fetch", (event) => {
     //https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Offline_Service_workers
     console.log('Inside the fetch handler:', event);
     let response;
-    caches.open(cacheName).then(cache => { // open my cache
+    event.waitUntil(caches.open(cacheName).then(cache => { // open my cache
             console.log("cache opened");
             if (cache === null || cache === undefined) {
                 console.log("undefined or null cache");
@@ -75,7 +75,7 @@ self.addEventListener("fetch", (event) => {
                 }
             });
         }
-    );
+    ));
     console.log("responding with:");
     console.log(response);
     event.respondWith(response);
