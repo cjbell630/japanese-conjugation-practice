@@ -1,4 +1,4 @@
-const versionNumber = "v0.0.2 a 37";
+const versionNumber = "v0.0.2 a 38";
 
 let newWorker;
 
