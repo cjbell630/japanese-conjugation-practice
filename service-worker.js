@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 41";
+let cacheName = "v0.0.2 a 42";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -67,7 +67,7 @@ self.addEventListener("fetch", (event) => {
                 })
             }) || fetch(event.request).then((response) => {
                 return caches.open(cacheName).then((cache) => {
-                    console.log('[Service Worker] Caching new resource: ' + e.request.url);
+                    console.log('[Service Worker] Caching new resource: ' + event.request.url);
                     cache.put(event.request, response.clone());
                     return response;
                 });
