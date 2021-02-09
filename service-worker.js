@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 42";
+let cacheName = "v0.0.2 a 43";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -23,56 +23,54 @@ let appShellFiles = [
     "app/images/icon-512.png"
 ];
 
-self.cacheName = cacheName;
+const RUNTIME = "runtime";
 
-self.addEventListener("install", (event) => {
-    //https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Offline_Service_workers
-    console.log('Inside the install handler:', event);
-    self.skipWaiting();
-    console.log("[Service Worker {" + cacheName + "}] Skipped Waiting");
+//https://googlechrome.github.io/samples/service-worker/basic/
+
+// The install handler takes care of precaching the resources we always need.
+self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(cacheName).then((cache) => {
-            console.log("[Service Worker {" + cacheName + "}] Caching all: app shell and content");
-            return cache.addAll(appShellFiles);
-        })
+        caches.open(cacheName)
+            .then(cache => cache.addAll(appShellFiles))
+            .then(self.skipWaiting())
     );
 });
 
-self.addEventListener("activate", (event) => {
-    console.log('Inside the activate handler:', event);
-    console.log("Deleting caches");
-    caches.keys().then(strArray => strArray.forEach(string => {
-            console.log("Found cache " + string);
-            if (string !== cacheName) {
-                console.log("Deleting cache " + string);
-                //caches.delete(string);
-            }
-        })
+// The activate handler takes care of cleaning up old caches.
+self.addEventListener('activate', event => {
+    const currentCaches = [cacheName, RUNTIME];
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
+        }).then(cachesToDelete => {
+            return Promise.all(cachesToDelete.map(cacheToDelete => {
+                return caches.delete(cacheToDelete);
+            }));
+        }).then(() => self.clients.claim())
     );
 });
 
-self.addEventListener("fetch", (event) => {
-    //https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Offline_Service_workers
-    console.log('Inside the fetch handler:', event);
-    let response;
-    console.log("fghxdfghd");
-    console.log("sdgsgdfgfg dfg");
+// The fetch handler serves responses for same-origin resources from a cache.
+// If no response is found, it populates the runtime cache with the response
+// from the network before returning it to the page.
+self.addEventListener('fetch', event => {
+    // Skip cross-origin requests, like those for Google Analytics.
+    if (event.request.url.startsWith(self.location.origin)) {
+        event.respondWith(
+            caches.match(event.request).then(cachedResponse => {
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
 
-    event.respondWith(
-        caches.match(event.request).then((r) => {
-            console.log('[Service Worker] Fetching resource: ' + event.request.url);
-            return caches.open(cacheName).then(cache => {
-                return cache.match(event.request).then(response => {
-                    return response;
-                })
-            }) || fetch(event.request).then((response) => {
-                return caches.open(cacheName).then((cache) => {
-                    console.log('[Service Worker] Caching new resource: ' + event.request.url);
-                    cache.put(event.request, response.clone());
-                    return response;
+                return caches.open(RUNTIME).then(cache => {
+                    return fetch(event.request).then(response => {
+                        // Put a copy of the response in the runtime cache.
+                        return cache.put(event.request, response.clone()).then(() => {
+                            return response;
+                        });
+                    });
                 });
-            });
-        })
-    )
-    ;
+            })
+        );
+    }
 });
