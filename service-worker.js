@@ -10,6 +10,7 @@ let appShellFiles = [
     "script/pattern-parser.js",
     "script/conjugator.js",
     "script/util.js",
+    "script/game.js",
 
     "css/main.css",
     "css/sidenav.css",
