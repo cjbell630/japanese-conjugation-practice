@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 49";
+let cacheName = "v0.0.2 a 50";
 let appShellFiles = [
     "",
     "manifest.webapp",
