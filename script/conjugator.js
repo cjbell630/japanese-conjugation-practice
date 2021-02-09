@@ -1,10 +1,32 @@
+/**
+ * Contains functions for conjugating Japanese words, based on externally defined conjugation patterns.
+ * @author Connor Bell
+ */
+
 // this code originally sourced from one of my other projects in a private repository.
 // Originally written in Python.
 
 //TODO: maybe reformat the verbs json file to group by type instead of having tos specify each time
 // also what about automatic types like a verb ends in xxx it's xxx type?
+//TODO: document "identification"
 
-const VOWEL_GROUPS = {
+/**
+ * Dict containing all of the Japanese hiragana characters (except ん) arranged by vowel column.
+ * Used for converting hiragana to another corresponding vowel form.
+ *
+ * @example
+ * let originalChar = "は";
+ * let originalVowel = "あ";
+ * let newVowel = "い";
+ * let newChar = HIRAGANA_COLUMNS[newVowel][ // get from the new vowel's column at...
+ *      // the index of the old char in it's vowel's column
+ *      HIRAGANA_COLUMNS[originalVowel].indexOf(originalChar)
+ * ];
+ * // result: newChar == "ひ";
+ *
+ * @const {{あ: string[], い: string[], う: string[], え: string[], お: string[]}}
+ */
+const HIRAGANA_COLUMNS = {
     "あ": ["あ", "か", "が", "さ", "ざ", "た", "だ", "な", "は", "ば", "ぱ", "ま", "や", "ら", "わ"],
     "い": ["い", "き", "ぎ", "し", "じ", "ち", "ぢ", "に", "ひ", "び", "ぴ", "み", "𛀆", "り", "ゐ"],
     "う": ["う", "く", "ぐ", "す", "ず", "つ", "づ", "ぬ", "ふ", "ぶ", "ぷ", "む", "ゆ", "る", "wu"],
@@ -12,9 +34,91 @@ const VOWEL_GROUPS = {
     "お": ["お", "こ", "ご", "そ", "ぞ", "と", "ど", "の", "ほ", "ぼ", "ぽ", "も", "よ", "ろ", "を"]
 }
 
+/**
+ * Regex for identifying alphabetic chars.
+ *
+ * @const {RegExp}
+ */
 const ALPHA_REGEX = /^[a-zA-Z]+$/;
 
-//patterns is dict
+
+//works the same as the python version
+//TODO: documentation
+//TODO: clean
+
+/**
+ * Gets a patterns dict based on a word and it's identification.
+ * Gets these from the JSON_CONTENTS variable in json-contents.js
+ *
+ * @author Connor Bell, originally written in Python
+ *
+ * @needs <p>{@link JSON_CONTENTS} from json-contents.js</p> <p>{@link merge} from util.js</p>
+ *
+ * @param word {string} the word to get the patterns for
+ * @param identification {string} the identification of the word
+ * @returns {Object.<string, string[] | string>} a dict containing form names as keys,
+ *                                                      and a [list of] string conjugation pattern[s]
+ */
+function getPatternsDictForWord(word, identification) {
+    console.log("word: " + word);
+    console.log("identification: " + identification);
+    identification = "base." + identification;
+    let patterns = { // dict
+        "word": "+" + word
+    }
+    let level = 0;
+    let paths = identification.split(".");
+    console.log(paths);
+    while (level < paths.length) {
+        let levelName = paths[level];
+        Object.keys(JSON_CONTENTS["verbs"][levelName]["vars"]).forEach(varName => {
+            //TODO: this just copies a dict into another dict, can be done cleaner
+            patterns[varName] = JSON_CONTENTS["verbs"][levelName]["vars"][varName];
+        });
+        if (Object.keys(JSON_CONTENTS["verbs"][levelName]).includes("regular")) {
+            Object.keys(JSON_CONTENTS["verbs"][levelName]["regular"]).forEach(formName => {
+                //TODO: this just copies a dict into another dict, can be done cleaner
+                patterns[formName] = Object.keys(patterns).includes(formName) ?
+                    merge(patterns[formName], JSON_CONTENTS["verbs"][levelName]["regular"][formName]) :
+                    JSON_CONTENTS["verbs"][levelName]["regular"][formName];
+            });
+        }
+
+        console.log(levelName);
+        console.log(level);
+        console.log(paths[level + 1]);
+        //console.log(paths[level + 1] in Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"]))
+        if (level + 1 < paths.length &&
+            Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"]).includes(paths[level + 1])) {
+            console.log("exception");
+            level++;
+            Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]]).forEach(formName => {
+                patterns[formName] = Object.keys(patterns).includes(formName) ?
+                    merge(patterns[formName], JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName]) :
+                    JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName];
+            });
+        }
+        console.log(patterns);
+
+        level++;
+    }
+    console.log(patterns);
+    return patterns;
+}
+
+/**
+ * Process a dict of patterns and returns the processed value.
+ *
+ * @author Connor Bell, originally written in Python
+ *
+ * @needs <p>{@link getGroupedStringsFromPattern} from pattern-parser.js</p>
+ *
+ * @param patterns {Object.<string, string[] | string>} a dict containing form names as keys,
+ *                                                      and a [list of] string conjugation pattern[s]
+ * @returns {Object.<string, string[] | string>} the same dict supplied as the parameter,
+ *                                                  except all conjugation patterns replaced with the conjugated form
+ *                                                  of the value of `patterns["word"]`
+ */
 function conjugateFromPatterns(patterns) {
     Object.keys(patterns).forEach(formName => {
         if (Array.isArray(patterns[formName])) {
@@ -25,7 +129,7 @@ function conjugateFromPatterns(patterns) {
         }
         let subformNum = 0;
         Object.values(patterns[formName]).forEach(subform => {
-            let split = getGroupedStringsFromConjugation(subform);
+            let split = getGroupedStringsFromPattern(subform);
             let word = "";
             let count = 0;
             while (count < split.length) {
@@ -54,7 +158,7 @@ function conjugateFromPatterns(patterns) {
                     word = word.substring(0, word.length - 1); // removes the last char
                     // from python:
                     // gets the corresponding vowel version of the final char in the string
-                    character = VOWEL_GROUPS[split[count + 1]][VOWEL_GROUPS[split[count - 1]].indexOf(character)];
+                    character = HIRAGANA_COLUMNS[split[count + 1]][HIRAGANA_COLUMNS[split[count - 1]].indexOf(character)];
                     word += character; //TODO: could merge into above line
                     count += 2
                 } else if (kw === "-") {
@@ -87,58 +191,13 @@ function conjugateFromPatterns(patterns) {
     return patterns;
 }
 
-//works the same as the python version
-//TODO: documentation
-//TODO: clean
-function getPatternsDictForWord(word, identification) {
-    console.log("word: " + word);
-    console.log("identification: " + identification);
-    identification = "base." + identification;
-    let patterns = { // dict
-        "word": "+" + word
-    }
-    let level = 0;
-    let paths = identification.split(".");
-    console.log(paths);
-    while (level < paths.length) {
-        let levelName = paths[level];
-        Object.keys(JSON_CONTENTS["verbs"][levelName]["vars"]).forEach(varName => {
-            //TODO: this just copies a dict into another dict, can be done cleaner
-            patterns[varName] = JSON_CONTENTS["verbs"][levelName]["vars"][varName];
-        });
-        if(Object.keys(JSON_CONTENTS["verbs"][levelName]).includes("regular")) {
-            Object.keys(JSON_CONTENTS["verbs"][levelName]["regular"]).forEach(formName => {
-                //TODO: this just copies a dict into another dict, can be done cleaner
-                patterns[formName] = Object.keys(patterns).includes(formName) ?
-                    merge(patterns[formName], JSON_CONTENTS["verbs"][levelName]["regular"][formName]) :
-                    JSON_CONTENTS["verbs"][levelName]["regular"][formName];
-            });
-        }
-
-        console.log(levelName);
-        console.log(level);
-        console.log(paths[level + 1]);
-        //console.log(paths[level + 1] in Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"]))
-        if (level + 1 < paths.length &&
-            Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"]).includes(paths[level + 1])) {
-            console.log("exception");
-            level++;
-            Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]]).forEach(formName => {
-                patterns[formName] = Object.keys(patterns).includes(formName) ?
-                    merge(patterns[formName], JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName]) :
-                    JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName];
-            });
-        }
-        console.log(patterns);
-
-        level++;
-    }
-    console.log(patterns);
-    return patterns;
-}
-
-//console.log(conjugateWord("成る", "う.つる"));
-
+/**
+ * Returns the full set of conjugations for a word, given its identification.
+ *
+ * @param word {string} the word to get the conjugations for
+ * @param identification {string} the identification of the word
+ * @returns {Object<string, string[]|string>} the full set of conjugations for the word
+ */
 function conjugateWord(word, identification) {
     return conjugateFromPatterns(getPatternsDictForWord(word, identification));
 }

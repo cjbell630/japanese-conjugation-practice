@@ -1,3 +1,4 @@
+//TODO: documentation
 const VERBS = {
     "Genki 1": {
         "Lesson 3": {

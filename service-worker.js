@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 45";
+let cacheName = "v0.0.2 a 46";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -7,7 +7,7 @@ let appShellFiles = [
     "res/json-contents.js",
     "res/words.js",
 
-    "script/conjugation-parser.js",
+    "script/pattern-parser.js",
     "script/conjugator.js",
     "script/util.js",
 

@@ -1,3 +1,4 @@
+//TODO: documentation
 const JSON_CONTENTS = {
     "verbs": {
         "base": {
