@@ -1,4 +1,4 @@
-let cacheName = "v0.0.2 a 35";
+let cacheName = "v0.0.2 a 36";
 let appShellFiles = [
     "index.html",
     "manifest.webapp",
@@ -59,17 +59,18 @@ self.addEventListener("fetch", (event) => {
     console.log("sdgsgdfgfg dfg");
 
     event.respondWith(
-        caches.open(cacheName).then(cache => {
-            cache.match(event.request).then((r) => {
-                console.log('[Service Worker] Fetching resource: ' + event.request.url);
-                return r || fetch(event.request).then((response) => {
-                    return caches.open(cacheName).then((cache) => {
-                        console.log('[Service Worker] Caching new resource: ' + event.request.url);
-                        cache.put(event.request, response.clone());
-                        return response;
-                    });
+        caches.match(event.request).then((r) => {
+            console.log('[Service Worker] Fetching resource: ' + e.request.url);
+            return caches.open(cacheName).match(event.request).then(response => {
+                return response;
+            }) || fetch(event.request).then((response) => {
+                return caches.open(cacheName).then((cache) => {
+                    console.log('[Service Worker] Caching new resource: ' + e.request.url);
+                    cache.put(event.request, response.clone());
+                    return response;
                 });
-            })
+            });
         })
-    );
+    )
+    ;
 });
