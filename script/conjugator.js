@@ -73,14 +73,14 @@ function getPatternsDictForWord(word, identification) {
         let levelName = paths[level];
         Object.keys(JSON_CONTENTS["verbs"][levelName]["vars"]).forEach(varName => {
             //TODO: this just copies a dict into another dict, can be done cleaner
-            patterns[varName] = JSON_CONTENTS["verbs"][levelName]["vars"][varName];
+            patterns[varName] = copy(JSON_CONTENTS["verbs"][levelName]["vars"][varName]);
         });
         if (Object.keys(JSON_CONTENTS["verbs"][levelName]).includes("regular")) {
             Object.keys(JSON_CONTENTS["verbs"][levelName]["regular"]).forEach(formName => {
                 //TODO: this just copies a dict into another dict, can be done cleaner
                 patterns[formName] = Object.keys(patterns).includes(formName) ?
-                    merge(patterns[formName], JSON_CONTENTS["verbs"][levelName]["regular"][formName]) :
-                    JSON_CONTENTS["verbs"][levelName]["regular"][formName];
+                    merge(patterns[formName], copy(JSON_CONTENTS["verbs"][levelName]["regular"][formName])) :
+                    copy(JSON_CONTENTS["verbs"][levelName]["regular"][formName]);
             });
         }
 
@@ -94,12 +94,10 @@ function getPatternsDictForWord(word, identification) {
             level++;
             Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]]).forEach(formName => {
                 patterns[formName] = Object.keys(patterns).includes(formName) ?
-                    merge(patterns[formName], JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName]) :
-                    JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName];
+                    merge(patterns[formName], copy(JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName])) :
+                    copy(JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName]);
             });
         }
-        console.log(patterns);
-
         level++;
     }
     console.log(patterns);

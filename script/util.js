@@ -42,6 +42,12 @@ function rand(startInc, endInc) {
     return Math.floor(Math.random() * (Math.abs(startInc - endInc) + 1)) + Math.min(startInc, endInc);
 }
 
+//TODO: doc
+//https://stackoverflow.com/a/10869248/12861567
+function copy(object) {
+    return JSON.parse(JSON.stringify(object))
+}
+
 /* TESTS */
 [
     [["foo", "", "hello"], ["", "bar", "goodbye"], ["foo", "bar", "goodbye"]]
