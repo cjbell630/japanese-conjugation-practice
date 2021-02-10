@@ -1,4 +1,4 @@
-let cacheName = "v0.0.3 a 10";
+let cacheName = "v0.0.3 a 11";
 let appShellFiles = [
     "./",
     "manifest.webapp",
@@ -34,6 +34,16 @@ self.addEventListener('install', event => {
         caches.open(cacheName)
             .then(cache => {
                 cache.addAll(appShellFiles);
+                cache.keys().then(requests => {
+                    requests.forEach(request => {
+                        //my attempt to replace all of the
+                        console.log("[Service Worker " + cacheName + "] about to fetch");
+                        fetch(request).then(response => {
+                            // Cache the newly fetched file for next time
+                            cache.put(request, response.clone());
+                        });
+                    })
+                })
             })
             .then(self.skipWaiting())
     );
@@ -57,6 +67,7 @@ self.addEventListener('activate', event => {
 // If no response is found, it populates the runtime cache with the response
 // from the network before returning it to the page.
 self.addEventListener('fetch', event => {
+    console.log("[Service Worker " + cacheName + "] Intercepted fetch")
     /* GOOGLE VERS
     // Skip cross-origin requests, like those for Google Analytics.
     if (event.request.url.startsWith(self.location.origin)) {
