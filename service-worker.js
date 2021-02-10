@@ -1,6 +1,6 @@
-let cacheName = "v0.0.3 a 0";
+let cacheName = "v0.0.3 a 1";
 let appShellFiles = [
-    "",
+    "index.html",
     "manifest.webapp",
     "register-sw.js",
 
@@ -57,6 +57,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     // Skip cross-origin requests, like those for Google Analytics.
     if (event.request.url.startsWith(self.location.origin)) {
+        if(event.request.url.endsWith("/japanese-conjugation-practice/")){
+            console.log("[Service Worker] requested homepage");
+            event.request.url = "https://cjbell630.github.io/japanese-conjugation-practice/index.html";
+        }
+
         event.respondWith(
             caches.match(event.request).then(cachedResponse => {
                 if (cachedResponse) {
