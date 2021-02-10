@@ -1,4 +1,4 @@
-let cacheName = "v0.0.3 a 12";
+let cacheName = "v0.0.3 a 13";
 let appShellFiles = [
     "./",
     "manifest.webapp",
@@ -34,20 +34,21 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(cacheName)
             .then(cache => {
-                cache.addAll(appShellFiles);
-                console.log("[Service Worker " + cacheName + "] added files");
-                console.log("[Service Worker " + cacheName + "] cache keys: ");
-                console.log(cache.keys());
-                cache.keys().then(requests => {
-                    requests.forEach(request => {
-                        //my attempt to replace all of the
-                        console.log("[Service Worker " + cacheName + "] about to fetch");
-                        fetch(request).then(response => {
-                            // Cache the newly fetched file for next time
-                            cache.put(request, response.clone());
+                cache.addAll(appShellFiles).then(whatever => {
+                    console.log("[Service Worker " + cacheName + "] added files");
+                    console.log("[Service Worker " + cacheName + "] cache keys: ");
+                    cache.keys().then(requests => {
+                        console.log(requests);
+                        requests.forEach(request => {
+                            //my attempt to replace all of the
+                            console.log("[Service Worker " + cacheName + "] about to fetch");
+                            fetch(request).then(response => {
+                                // Cache the newly fetched file for next time
+                                cache.put(request, response.clone());
+                            });
                         });
-                    })
-                })
+                    });
+                });
             })
             .then(self.skipWaiting())
     );
