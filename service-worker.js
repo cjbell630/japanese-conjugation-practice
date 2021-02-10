@@ -1,4 +1,4 @@
-let cacheName = "v0.0.3 a 11";
+let cacheName = "v0.0.3 a 12";
 let appShellFiles = [
     "./",
     "manifest.webapp",
@@ -30,10 +30,14 @@ const RUNTIME = "runtime";
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
+    console.log("[Service Worker " + cacheName + "] install event");
     event.waitUntil(
         caches.open(cacheName)
             .then(cache => {
                 cache.addAll(appShellFiles);
+                console.log("[Service Worker " + cacheName + "] added files");
+                console.log("[Service Worker " + cacheName + "] cache keys: ");
+                console.log(cache.keys());
                 cache.keys().then(requests => {
                     requests.forEach(request => {
                         //my attempt to replace all of the
