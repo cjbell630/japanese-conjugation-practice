@@ -1,6 +1,6 @@
-let cacheName = "v0.0.3 a 1";
+let cacheName = "v0.0.3 a 2";
 let appShellFiles = [
-    "index.html",
+    "./",
     "manifest.webapp",
     "register-sw.js",
 
@@ -32,7 +32,11 @@ const RUNTIME = "runtime";
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(cacheName)
-            .then(cache => cache.addAll(appShellFiles))
+            .then(cache => {
+                cache.addAll(appShellFiles);
+                console.log("cache keys: ");
+                console.log(cache.keys());
+            })
             .then(self.skipWaiting())
     );
 });
@@ -57,10 +61,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     // Skip cross-origin requests, like those for Google Analytics.
     if (event.request.url.startsWith(self.location.origin)) {
+        /*
         if(event.request.url.endsWith("/japanese-conjugation-practice/")){
             console.log("[Service Worker] requested homepage");
             event.request.url = "https://cjbell630.github.io/japanese-conjugation-practice/index.html";
-        }
+        }*/
 
         event.respondWith(
             caches.match(event.request).then(cachedResponse => {
