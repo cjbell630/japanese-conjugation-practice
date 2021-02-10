@@ -1,4 +1,4 @@
-let cacheName = "v0.0.3 a 8";
+let cacheName = "v0.0.3 a 9";
 let appShellFiles = [
     "./",
     "manifest.webapp",
@@ -30,16 +30,6 @@ const RUNTIME = "runtime";
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
-    const currentCaches = [cacheName, RUNTIME];
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
-        }).then(cachesToDelete => {
-            return Promise.all(cachesToDelete.map(cacheToDelete => {
-                return caches.delete(cacheToDelete);
-            }));
-        }).then(() => self.clients.claim())
-    );
     event.waitUntil(
         caches.open(cacheName)
             .then(cache => {
