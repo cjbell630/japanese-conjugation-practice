@@ -1,4 +1,4 @@
-let cacheName = "v0.0.3 a 4";
+let cacheName = "v0.0.3 a 5";
 let appShellFiles = [
     "./",
     "manifest.webapp",
@@ -34,8 +34,6 @@ self.addEventListener('install', event => {
         caches.open(cacheName)
             .then(cache => {
                 cache.addAll(appShellFiles);
-                console.log("cache keys: ");
-                console.log(cache.keys());
             })
             .then(self.skipWaiting())
     );
