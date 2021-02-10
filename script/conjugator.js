@@ -42,13 +42,12 @@ const HIRAGANA_COLUMNS = {
 const ALPHA_REGEX = /^[a-zA-Z]+$/;
 
 
-//works the same as the python version
-//TODO: documentation
-//TODO: clean
-
 /**
  * Gets a patterns dict based on a word and it's identification.
  * Gets these from the JSON_CONTENTS variable in json-contents.js
+ *
+ * TODO: clean
+ * TODO: can probably go a little easy on the "copy"s
  *
  * @author Connor Bell, originally written in Python
  *
@@ -69,18 +68,23 @@ function getPatternsDictForWord(word, identification) {
     let level = 0;
     let paths = identification.split(".");
     console.log(paths);
+
+
     while (level < paths.length) {
         let levelName = paths[level];
-        Object.keys(JSON_CONTENTS["verbs"][levelName]["vars"]).forEach(varName => {
+
+        let currLevel = copy(JSON_CONTENTS["verbs"][levelName]);
+
+        Object.keys(currLevel["vars"]).forEach(varName => {
             //TODO: this just copies a dict into another dict, can be done cleaner
-            patterns[varName] = copy(JSON_CONTENTS["verbs"][levelName]["vars"][varName]);
+            patterns[varName] = copy(currLevel["vars"][varName]);
         });
-        if (Object.keys(JSON_CONTENTS["verbs"][levelName]).includes("regular")) {
-            Object.keys(JSON_CONTENTS["verbs"][levelName]["regular"]).forEach(formName => {
+        if (Object.keys(currLevel).includes("regular")) {
+            Object.keys(currLevel["regular"]).forEach(formName => {
                 //TODO: this just copies a dict into another dict, can be done cleaner
+                let regular = copy(currLevel["regular"][formName]);
                 patterns[formName] = Object.keys(patterns).includes(formName) ?
-                    merge(patterns[formName], copy(JSON_CONTENTS["verbs"][levelName]["regular"][formName])) :
-                    copy(JSON_CONTENTS["verbs"][levelName]["regular"][formName]);
+                    merge(patterns[formName], regular) : regular;
             });
         }
 
@@ -89,13 +93,13 @@ function getPatternsDictForWord(word, identification) {
         console.log(paths[level + 1]);
         //console.log(paths[level + 1] in Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"]))
         if (level + 1 < paths.length &&
-            Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"]).includes(paths[level + 1])) {
+            Object.keys(currLevel["exceptions"]).includes(paths[level + 1])) {
             console.log("exception");
             level++;
-            Object.keys(JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]]).forEach(formName => {
+            Object.keys(currLevel["exceptions"][paths[level]]).forEach(formName => {
+                let exception = copy(currLevel["exceptions"][paths[level]][formName]);
                 patterns[formName] = Object.keys(patterns).includes(formName) ?
-                    merge(patterns[formName], copy(JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName])) :
-                    copy(JSON_CONTENTS["verbs"][levelName]["exceptions"][paths[level]][formName]);
+                    merge(patterns[formName], exception) : exception;
             });
         }
         level++;
@@ -108,6 +112,8 @@ function getPatternsDictForWord(word, identification) {
  * Process a dict of patterns and returns the processed value.
  *
  * @author Connor Bell, originally written in Python
+ *
+ * TODO: clean
  *
  * @needs <p>{@link getGroupedStringsFromPattern} from pattern-parser.js</p>
  *

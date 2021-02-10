@@ -17,6 +17,7 @@
         <script src="script/util.js"></script>
         <script src="script/pattern-parser.js"></script>
         <script src="script/conjugator.js"></script>
+        <script src="script/game.js"></script>
         <script src="res/words.js"></script>
     </head>
     <body style="background-color: grey">
@@ -30,61 +31,61 @@
                 <ul id="groupSelector" class="caretUL">
                     <li><span class="caret">Genki 1</span>
                         <ul class="nested">
-                            <li><span class="box">Lesson 3</span></li>
-                            <li><span class="box">Lesson 4</span></li>
-                            <li><span class="box">Lesson 5</span></li>
+                            <li><span class="box words" data-cat="Genki 1" data-sub="Lesson 3">Lesson 3</span></li>
+                            <li><span class="box words" data-cat="Genki 1" data-sub="Lesson 4">Lesson 4</span></li>
+                            <li><span class="box words" data-cat="Genki 1" data-sub="Lesson 5">Lesson 5</span></li>
                         </ul>
                     </li>
+                </ul>
+            </a>
+
+            <a>Forms
+                <ul>
+                    <li><span class="box forms" data-name="nonPast">Non-Past</span></li>
+                    <li><span class="box forms" data-name="nonPastNEG">Non-Past Negative</span></li>
+                    <li><span class="box forms" data-name="nonPastPolite">Non-Past Polite</span></li>
+                    <li><span class="box forms" data-name="nonPastPoliteNEG">Non-Past Polite Negative</span></li>
+                    <li><span class="box forms" data-name="past">Past</span></li>
+                    <li><span class="box forms" data-name="pastNEG">Past Negative</span></li>
+                    <li><span class="box forms" data-name="pastPolite">Past Polite</span></li>
+                    <li><span class="box forms" data-name="pastPoliteNEG">Past Polite Negative</span></li>
+                    <li><span class="box forms" data-name="teForm">Te Form</span></li>
+                    <li><span class="box forms" data-name="teFormNEG">Te Form Negative</span></li>
+                    <li><span class="box forms" data-name="potential">Potential</span></li>
+                    <li><span class="box forms" data-name="potentialNEG">Potential Negative</span></li>
+                    <li><span class="box forms" data-name="passive">Passive</span></li>
+                    <li><span class="box forms" data-name="passiveNEG">Passive Negative</span></li>
+                    <li><span class="box forms" data-name="causative">Causative</span></li>
+                    <li><span class="box forms" data-name="causativeNEG">Causative Negative</span></li>
+                    <li><span class="box forms" data-name="causativePassive">Causative Passive</span></li>
+                    <li><span class="box forms" data-name="causativePassiveNEG">Causative Passive Negative</span></li>
+                    <li><span class="box forms" data-name="imperative">Imperative</span></li>
+                    <li><span class="box forms" data-name="imperativeNEG">Imperative Negative</span></li>
+                    <li><span class="box forms" data-name="imperativePolite">Imperative Polite</span></li>
+                    <li><span class="box forms" data-name="imperativePoliteNEG">Imperative Polite Negative</span></li>
+                    <li><span class="box forms" data-name="volitional">Volitional</span></li>
+                    <li><span class="box forms" data-name="volitionalNEG">Volitional Negative</span></li>
+                    <li><span class="box forms" data-name="volitionalPolite">Volitional Polite</span></li>
+                    <li><span class="box forms" data-name="volitionalPoliteNEG">Volitional Polite Negative</span></li>
+                    <li><span class="box forms" data-name="taiFormNonPast">Tai Form Non-Past</span></li>
+                    <li><span class="box forms" data-name="taiFormNonPastNEG">Tai Form Non-Past Negative</span></li>
+                    <li><span class="box forms" data-name="taiFormPast">Tai Form Past</span></li>
+                    <li><span class="box forms" data-name="taiFormPastNEG">Tai Form Past Negative</span></li>
+                    <li><span class="box forms" data-name="withoutForm">Without Form</span></li>
+                    <li><span class="box forms" data-name="withoutFormPolite">Without Form Polite</span></li>
                 </ul>
             </a>
             <a style="position: absolute; bottom: 70px;" id="versionNumber"></a>
         </div>
         <!-- Use any element to open the sidenav -->
         <span onclick="openNav()" class="fa fa-bars" style="font-size: 10vw;"></span>
-
-        <label for="wordDropdown"></label><select id="wordDropdown"></select>
-        <label for="formDropdown"></label><select id="formDropdown"></select>
-        <button id="goButton" onclick="goButtonClick()">Go</button>
+        <button id="newWordButton" onclick="newWord()">New Word</button>
         <br/>
         <button id="updateButton" onclick="update()" hidden>Update</button>
-        <p id="resultsP">Not any results yet</p>
+        <p id="currWordP"></p>
+        <p id="currFormP"></p>
+        <p id="answerP"></p>
         <script>
-            let wordDropdown = document.getElementById("wordDropdown");
-            let formDropdown = document.getElementById("formDropdown");
-            let resultsP = document.getElementById("resultsP");
-
-            function loadWords() {
-                Object.keys(VERBS["Genki 1"]["Lesson 3"]).forEach(verb => {
-                    let option = document.createElement("option");
-                    option.textContent = verb;
-                    option.value = verb;
-                    wordDropdown.appendChild(option);
-                });
-            }
-
-            function loadForms() {
-                Object.keys(JSON_CONTENTS["verbs"]["base"]["regular"]).forEach(formGroupName => {
-                    let forms = JSON_CONTENTS["verbs"]["base"]["regular"][formGroupName].length === 1 ?
-                        [formGroupName] : [formGroupName, formGroupName + "NEG"];
-
-                    forms.forEach(formID => {
-                        let option = document.createElement("option");
-                        option.textContent = formID; //TODO: replace with user friendly name
-                        option.value = formID;
-                        formDropdown.appendChild(option);
-                    });
-                });
-            }
-
-            function goButtonClick() {
-                let raw = conjugateWord(wordDropdown.value, VERBS["Genki 1"]["Lesson 3"][wordDropdown.value]);
-                console.log("button raw result: ");
-                console.log(raw);
-                console.log("raw json: ");
-                console.log(JSON_CONTENTS);
-                resultsP.innerText =
-                    raw[formDropdown.value.replace("NEG", "")][formDropdown.value.endsWith("NEG") ? 1 : 0];
-            }
 
             function update() {
                 //https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
@@ -143,9 +144,8 @@
             }
 
             addListeners();
-            loadForms();
-            loadWords();
             document.getElementById("versionNumber").innerText = versionNumber;
+            newWord();
         </script>
     </body>
 </html>
